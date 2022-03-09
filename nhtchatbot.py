@@ -10,17 +10,27 @@ def nht():
 
 @app.route('/chat', methods=['POST'])
 def chat():
-    ch = request.form['messageText']
-    print(ch)
-    if "hi" in ch:
-        return jsonify({"answer": "Hello"})
-    elif "who are you" in ch:
+    ch = request.get_data('messageText')
+    abc = str(ch)
+    print(abc)
+    if "hi" in abc:
+        return jsonify({"answer": "Hello, How can I help you?"})
+    elif "who are you" in abc:
         return jsonify({"answer": "I am NHT chatbot."})
-    elif "hypertension" in ch:
-        return jsonify({"answer": "Hypertension"})
+    elif "hypertension" in abc:
+        return jsonify({"answer": "Also known as high blood pressure, is a long term medical condition in which the blood pressure in the arteries is presistently elevated. How much is your bp?"})
+    elif "Hypertension" in abc:
+        return jsonify({"answer": "Also known as high blood pressure, is a long term medical condition in which the blood pressure in the arteries is presistently elevated. How much is your bp?"})
+    elif "i think i have hypertension" in abc:
+        return jsonify({"answer": "How much is your SBP and DBP? Ex: 140/90"})
+    elif "140/90" in abc:
+        return jsonify({"answer": "If you have SBP: 120-139 mmHg\n120-139"})
     else:
-        return jsonify({"answer": "Sorry I didn't understand u"})
+        with open('file.txt', 'a') as f:
+            f.write(str(ch))
+            f.write('\n')
+            return jsonify({"answer": "Sorry, I didn't understand you"})
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', debug=True)
+    app.run(host='127.0.0.1', debug=True)
