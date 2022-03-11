@@ -11,23 +11,33 @@ def nht():
 @app.route('/chat', methods=['POST'])
 def chat():
     ch = request.get_data('messageText')
-    abc = str(ch)
-    print(abc)
-    if "hi" in abc:
-        return jsonify({"answer": "Hello, How can I help you?"})
-    elif "who are you" in abc:
-        return jsonify({"answer": "I am NHT chatbot."})
-    elif "hypertension" in abc:
-        return jsonify({"answer": "Also known as high blood pressure, is a long term medical condition in which the blood pressure in the arteries is presistently elevated. How much is your bp?"})
-    elif "Hypertension" in abc:
-        return jsonify({"answer": "Also known as high blood pressure, is a long term medical condition in which the blood pressure in the arteries is presistently elevated. How much is your bp?"})
-    elif "i think i have hypertension" in abc:
-        return jsonify({"answer": "How much is your SBP and DBP? Ex: 140/90"})
-    elif "140/90" in abc:
+    abc = ch.decode('UTF-8')
+    ab = abc.replace('messageText=', '')
+    a = ab.replace('+', ' ')
+    print(a)
+    if "hi" in a:
+        return jsonify({"answer": "Hello, this is NHT chatbot. How can I help you?"})
+    elif "I have a headache" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "i have a headache" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "Severe" in a:
+        return jsonify({"answer": "What are the other symptoms that you have"})
+    elif "severe" in a:
+        return jsonify({"answer": "What are the other symptoms that you have"})
+    elif "chest pain" in a:
+        return jsonify({"answer": "For how long have you been suffering from it"})
+    elif "one day ago" in a:
+        return jsonify({"answer": "Have you been diagnosed with Hypertension before? Yes or No?"})
+    elif "no" in a:
+        return jsonify({"answer": "How much is your SBP and DBP? A.120/80mmHg \n B.120-129/<80 mmHg \n C.130-139/80-89mmHg \n D.>140/>80mmHg \n Choose A or B or C or D"})
+    elif "yes" in a:
+        return jsonify({"answer": "How much is your SBP and DBP? A.120/80mmHg \n B.120-129/<80 mmHg \n C.130-139/80-89mmHg \n D.>140/>80mmHg \n Choose A or B or C or D"})
+    elif "140" in a:
         return jsonify({"answer": "If you have SBP: 120-139 mmHg\n120-139"})
     else:
         with open('file.txt', 'a') as f:
-            f.write(str(ch))
+            f.write(a)
             f.write('\n')
             return jsonify({"answer": "Sorry, I didn't understand you"})
 
