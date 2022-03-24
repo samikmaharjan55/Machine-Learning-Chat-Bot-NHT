@@ -16,25 +16,53 @@ def chat():
     a = ab.replace('+', ' ')
     print(a)
     if "hi" in a:
-        return jsonify({"answer": "Hello, this is NHT chatbot. How can I help you?"})
-    elif "I have a headache" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "i have a headache" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "Severe" in a:
-        return jsonify({"answer": "What are the other symptoms that you have"})
-    elif "severe" in a:
-        return jsonify({"answer": "What are the other symptoms that you have"})
-    elif "chest pain" in a:
-        return jsonify({"answer": "For how long have you been suffering from it"})
-    elif "one day ago" in a:
-        return jsonify({"answer": "Have you been diagnosed with Hypertension before? Yes or No?"})
-    elif "no" in a:
-        return jsonify({"answer": "How much is your SBP and DBP? A.120/80mmHg \n B.120-129/<80 mmHg \n C.130-139/80-89mmHg \n D.>140/>80mmHg \n Choose A or B or C or D"})
+        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
+    elif "Hi" in a:
+        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
+    elif "hello" in a:
+        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
+    elif "Hello" in a:
+        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
     elif "yes" in a:
-        return jsonify({"answer": "How much is your SBP and DBP? A.120/80mmHg \n B.120-129/<80 mmHg \n C.130-139/80-89mmHg \n D.>140/>80mmHg \n Choose A or B or C or D"})
-    elif "140" in a:
-        return jsonify({"answer": "If you have SBP: 120-139 mmHg\n120-139"})
+        return jsonify({"answer": "Good to know! Always remember me if you need assistance."})
+    elif "no" in a:
+        return jsonify({"answer": "Do you have any symptoms?"})
+    elif "No" in a:
+        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
+    elif "headache" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "chest pain" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "shortness of breath" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "diziness" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "vision problem" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "confusion and fatigue" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "irregular heartbeat" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "sweating" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "blood spot in eyes" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "blood in urine" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "pounding in chest neck and ears" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "chest pain" in a:
+        return jsonify({"answer": "Severe or normal"})
+    elif "severe" in a:
+        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
+    elif "normal" in a:
+        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
+    elif "120 80" in a:
+        return jsonify({"answer": "You have a normal bp."})
+    elif "140 90" in a:
+        return jsonify({"answer": "You have Hypertension Stage I."})
+    elif "160 100" in a:
+        return jsonify({"answer": "You have Hypertension Stage II."})
     else:
         with open('file.txt', 'a') as f:
             f.write(a)
