@@ -1,4 +1,110 @@
+from nltk.stem.lancaster import LancasterStemmer
+import pickle
+import nltk
+import numpy
+import tflearn
+import tensorflow
+from unittest import result
+import random
+import json
+from cProfile import label
 from flask import Flask, render_template, request, jsonify
+
+
+stemmer = LancasterStemmer()
+
+try:
+    nltk.download('punkt')
+except:
+    pass
+
+
+with open("intents.json") as file:
+    data = json.load(file)
+
+try:
+    with open("data.pickle", "rb") as f:
+        words, labels, training, output = pickle.load(f)
+
+except:
+    words = []
+    labels = []
+    docs_x = []
+    docs_y = []
+
+    for intent in data["intents"]:
+        for pattern in intent["patterns"]:
+            wrds = nltk.word_tokenize(pattern)
+            words.extend(wrds)
+            docs_x.append(wrds)
+            docs_y.append(intent["tag"])
+
+            if intent["tag"] not in labels:
+                labels.append(intent["tag"])
+
+    words = [stemmer.stem(w.lower()) for w in words if w != "?"]
+    words = sorted(list(set(words)))
+
+    labels = sorted(labels)
+
+    training = []
+    output = []
+
+    out_empty = [0 for _ in range(len(labels))]
+
+    for x, doc in enumerate(docs_x):
+        bag = []
+
+        wrds = [stemmer.stem(w.lower()) for w in doc]
+
+        for w in words:
+            if w in wrds:
+                bag.append(1)
+            else:
+                bag.append(0)
+
+        output_row = out_empty[:]
+        output_row[labels.index(docs_y[x])] = 1
+
+        training.append(bag)
+        output.append(output_row)
+
+    training = numpy.array(training)
+    output = numpy.array(output)
+
+    with open("data.pickle", "wb") as f:
+        pickle.dump((words, labels, training, output), f)
+
+tensorflow.compat.v1.reset_default_graph()
+
+net = tflearn.input_data(shape=[None, len(training[0])])
+net = tflearn.fully_connected(net, 8)
+net = tflearn.fully_connected(net, 8)
+net = tflearn.fully_connected(net, len(output[0]), activation="softmax")
+net = tflearn.regression(net)
+
+model = tflearn.DNN(net)
+
+try:
+    nht.py
+except:
+    model.fit(training, output, n_epoch=1000, batch_size=8, show_metric=True)
+    model.save("model.tflearn")
+
+
+def bag_of_words(s, words):
+    bag = [0 for _ in range(len(words))]
+
+    s_words = nltk.word_tokenize(s)
+    s_words = [stemmer.stem(word.lower()) for word in s_words]
+
+    for se in s_words:
+        for i, w in enumerate(words):
+            if w == se:
+                bag[i] = 1
+
+    return numpy.array(bag)
+
 
 app = Flask(__name__)
 
@@ -10,64 +116,33 @@ def nht():
 
 @app.route('/chat', methods=['POST'])
 def chat():
+
+    print("Start talking with the bot (type quit to stop)!")
+    # while True:
     ch = request.get_data('messageText')
     abc = ch.decode('UTF-8')
     ab = abc.replace('messageText=', '')
-    a = ab.replace('+', ' ')
-    print(a)
-    if "hi" in a:
-        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
-    elif "Hi" in a:
-        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
-    elif "hello" in a:
-        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
-    elif "Hello" in a:
-        return jsonify({"answer": "Hello, this is NHT chatbot. Are you feeling good?"})
-    elif "yes" in a:
-        return jsonify({"answer": "Good to know! Always remember me if you need assistance."})
-    elif "no" in a:
-        return jsonify({"answer": "Do you have any symptoms?"})
-    elif "No" in a:
-        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
-    elif "headache" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "chest pain" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "shortness of breath" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "diziness" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "vision problem" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "confusion and fatigue" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "irregular heartbeat" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "sweating" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "blood spot in eyes" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "blood in urine" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "pounding in chest neck and ears" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "chest pain" in a:
-        return jsonify({"answer": "Severe or normal"})
-    elif "severe" in a:
-        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
-    elif "normal" in a:
-        return jsonify({"answer": "How much is your SBP and DBP? Ex: 120/80 mmHg"})
-    elif "120 80" in a:
-        return jsonify({"answer": "You have a normal bp."})
-    elif "140 90" in a:
-        return jsonify({"answer": "You have Hypertension Stage I."})
-    elif "160 100" in a:
-        return jsonify({"answer": "You have Hypertension Stage II."})
+    inp = ab.replace('+', ' ')
+    print(inp)
+    # inp = input("You: ")
+    # if inp.lower() == "quit":
+    #     break
+
+    results = model.predict([bag_of_words(inp, words)])[0]
+    results_index = numpy.argmax(results)
+    tag = labels[results_index]
+
+    if results[results_index] > 0.7:
+        for tg in data["intents"]:
+            if tg['tag'] == tag:
+                responses = tg['responses']
+
+        print(random.choice(responses))
+        return jsonify({"answer": random.choice(responses)})
+        print("working")
     else:
-        with open('file.txt', 'a') as f:
-            f.write(a)
-            f.write('\n')
-            return jsonify({"answer": "Sorry, I didn't understand you"})
+        print("I didn't get that, try again.")
+        return jsonify({"answer": "I didn't get that, try again."})
 
 
 if __name__ == "__main__":
