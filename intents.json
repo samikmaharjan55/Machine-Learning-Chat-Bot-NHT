@@ -1,43 +1,73 @@
 {"intents": [
         {"tag": "greeting",
-         "patterns": ["Hi", "Hello"],
-         "responses": ["Hello!", "Hello, this is NHT chatbot. Are you feeling good?", "Hi there, how can I help?"],
+         "patterns": ["Hi", "Hello","who are you","who","Hey"],
+         "responses": ["Hello, this is NHT chatbot. How can I help you?"],
          "context_set": ""
         },
         {"tag": "goodbye",
          "patterns": ["cya", "See you later", "Goodbye", "I am Leaving", "Have a Good day"],
-         "responses": ["Sad to see you go :(", "Talk to you later", "Goodbye!"],
+         "responses": ["Remember me for future assistance", "Talk to you later", "Goodbye! Hope you have a good day"],
          "context_set": ""
         },
-        {"tag": "yesss",
-        "patterns": ["yes"],
-        "responses": ["What are your symptoms?"],
+        {"tag": "secondque",
+        "patterns": ["I am not feeling good","I am feeling unwell","I have hypertension","I have high bp","high bp","hypertension"],
+        "responses": ["What are your symptoms?","Any Symptoms?"],
         "context_set": ""
         },
-        {"tag": "noooo",
-        "patterns": ["no","i am feeling good"],
-        "responses": ["Remember me if you need any assistance in future"],
+        {"tag": "symptoms",
+        "patterns": ["headache","shortness of breathe","confusion","diziness","chest pain","irregular heartbeat","blood in the urine","blurred vision","fatigue","papilledema"],
+        "responses": ["Any more symptoms?","Tell me your bp! Ex: 120-80"],
         "context_set": ""
         },
-        {"tag": "age",
-         "patterns": ["how old", "how old is samik", "what is your age", "how old are you", "age?"],
-         "responses": ["I am 24 years old!", "24 years young!"],
+        {"tag": "bp1",
+         "patterns": ["120-80","125-85","130-85"],
+         "responses": ["You have normal blood pressure. Please stick with the healthy diet."],
          "context_set": ""
+        },
+        {"tag": "bp2",
+        "patterns": ["145-95","150-90"],
+        "responses": ["You have Hypertension-Stage I. Your bp is elevated. Eat healthy food, decrease the salt in your diet and exercise regularly.","Hypertension-Stage I"],
+        "context_set": ""
+        },
+        {"tag": "bp3",
+        "patterns": ["160-100","163-102"],
+        "responses": ["You have Hypertension-Stage II. A combination of healthy lifestyle and BP-lowering medication is the recommended care plan for the patient.","Hypertension-Stage II"],
+        "context_set": ""
         },
         {"tag": "name",
          "patterns": ["what is your name", "what should I call you", "whats your name?"],
          "responses": ["You can call me Nht.", "I'm Nht!"],
          "context_set": ""
         },
-        {"tag": "shop",
-         "patterns": ["Id like to buy something", "whats on the menu", "what do you reccommend?", "could i get something to eat"],
-         "responses": ["We sell chocolate chip cookies for $2!", "Cookies are on the menu!"],
+        {"tag": "afterdiagnosis",
+         "patterns": ["what should i do now?","can you recommend me any measures?","how to balance my bp","how to control my bp","is there anything that i can do"],
+         "responses": ["Mainly management of hypertension is possible by two ways: Life style modification or Pharmacological therapy"],
          "context_set": ""
         },
-        {"tag": "hours",
-         "patterns": ["when are you guys open", "what are your hours", "hours of operation"],
-         "responses": ["We are open 7am-4pm Monday-Friday!"],
+        {"tag": "lifestylemod",
+         "patterns": ["life style modification","lifestyle"],
+         "responses": ["Weight Reduction, DASH Diet, Dietary sodium reduction, reduce alcohol, exercise, stress management","Do you want some food recommendations?"],
          "context_set": ""
+        },
+        {"tag": "foodrec",
+        "patterns": ["recommend me foods","foods","what should i eat"],
+        "responses": ["Skim or 1% milk, yogurt, Greek yogurt (calcium-rich foods can lower blood pressure), Lean meat, Skinless turkey and chicken, Low-salt, ready-to-eat cereals, Cooked hot cereal (not instant), Low-fat and low-salt cheeses, Fruits (fresh, frozen, or canned without added salt), Vegetables (fresh, frozen or canned, no added salt), Richly colored green, orange, and red items are high in potassium and minerals that help lower blood pressure, The goal is 5-9 servings of fruits and vegetables per day, Plain rice, pasta, and potatoes, Breads (English muffins, bagels, rolls, and tortillas), Lower salt prepared convenience food."],
+        "context_set": ""
+        },
+        {"tag": "foodrecnot",
+        "patterns": ["what shouldnt i eat","What are the foods that I should avoid?"],
+        "responses": ["Butter and margarine, Regular salad dressings, Fatty meat, Whole milk dairy products, Fried foods, Salted snacks, Canned soups, Fast foods, Deli meats"],
+        "context_set": ""
+        },
+        {"tag": "pharmacologicalther",
+        "patterns": ["pharmacological therapy","pharmacological","therapy"],
+        "responses": ["Anti-hypertensive drugs like chlorothiazide, furosemide, Atenolol, propanolol, Prazosin, etc"],
+        "context_set": ""
+        },
+        {"tag": "thankyouu",
+        "patterns": ["thankyou","thanks"],
+        "responses": ["Welcome! Remember me for future assistance."],
+        "context_set": ""
         }
    ]
 }
